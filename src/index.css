@@ -352,6 +352,7 @@ body {
   border-radius: 9999px;
   background-color: white;
   transition: all 200ms ease-in-out;
+  gap: 1;
 }
 
 .indicator-line.active {

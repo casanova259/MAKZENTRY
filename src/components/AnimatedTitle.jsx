@@ -8,26 +8,6 @@ const AnimatedTitle = ({ title, containerClass }) => {
     const containerRef = useRef(null);
     //now we build the animation
 
-    // useEffect(() => {
-    //     const ctx = gsap.context(() => {
-    //         gsap.timeline({
-    //             scrollTrigger: {
-    //                 trigger: containerRef.current,
-    //                 start: "100 bottom",
-    //                 end: "center bottom",
-    //                 toggleActions: "play none none reverse"
-
-    //                 //- Determines how the linked animation is controlled at the 4 distinct toggle places - onEnter, onLeave, onEnterBack, and onLeaveBack, in that order. The default is play none none none
-    //             }
-    //         });
-
-    //         titleAnimation.to(".animated-word", {
-    //             opacity: 1,
-    //             tranform: 'translate3d(0,0,0) rotateY(0deg) rotateX(0deg)',
-    //             ease: "power2.inOut",
-    //             stagger: 0.02
-    //         })
-    //     }, containerRef)
 
     useEffect(() => {
     const ctx = gsap.context(() => {
