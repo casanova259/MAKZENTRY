@@ -10,15 +10,23 @@ export function BentoTilt({children,className=""})
     const cardRef=useRef(null);
 
     function handleMouseMove(e){
+
+        //this determines which card we are currently on or what we are 
+        //targeting 
         if(!cardRef.current) return ;
 
+
+        //getting the propertuies and find the current ref of the card
         const {left,top,width,height}=cardRef.current.getBoundingClientRect();
 
         //getBoundingClientRect:The Element.getBoundingClientRect() method in JavaScript is used to get the size and position of an HTML element relative to the viewport (the visible area of the browser window). 
 
         //POSITION RELATIVE TO CURSOR
+        //this is for the card relative to the cursor
         const relativeX=(e.clientX-left)/width;
         const relativeY=(e.clientY-top)/height;
+
+        //first we calculate the relative difference between the mousr cursor and the card
 
         //now we calculate the tilt of the card
         const tiltX=(relativeY-0.5)*5;
