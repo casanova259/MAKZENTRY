@@ -1,8 +1,49 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
-export function BentoTilt()
+export function BentoTilt({children,className=""})
 {
-    
+    console.log(className);
+    console.log("MKC")
+
+    const [transformStyle,setTransformStyle]=useState("");
+    //ref banayege us element ka using use ref
+    const cardRef=useRef(null);
+
+    function handleMouseMove(e){
+        if(!cardRef.current) return ;
+
+        const {left,top,width,height}=cardRef.current.getBoundingClientRect();
+
+        //getBoundingClientRect:The Element.getBoundingClientRect() method in JavaScript is used to get the size and position of an HTML element relative to the viewport (the visible area of the browser window). 
+
+        //POSITION RELATIVE TO CURSOR
+        const relativeX=(e.clientX-left)/width;
+        const relativeY=(e.clientY-top)/height;
+
+        //now we calculate the tilt of the card
+        const tiltX=(relativeY-0.5)*5;
+        const tiltY=(relativeX-0.5)*-5;
+
+        const newTransform=`perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(.95,.95,.95)`;
+        setTransformStyle(newTransform);
+    }
+
+    function handleMouseLeave()
+    {
+        setTransformStyle("");
+    }
+
+    return(
+        <div 
+        className={className}
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{transform:transformStyle}}
+        >
+            {children}
+        </div>
+    )
 }
 const BentoCard = ({src,title,description}) => {
   return (
