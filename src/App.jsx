@@ -4,6 +4,9 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Features from './components/Features'
 import Story from './components/Story'
+import Collab from './components/Collab'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 import './index.css'
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
       <About />
       <Features/>
       <Story/>
+      <Collab/>
+      <Contact/>
+      <Footer/>
     </main>
   )
 }

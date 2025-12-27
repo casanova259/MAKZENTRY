@@ -15,59 +15,104 @@ const Navbar = () => {
     const [isNavVisible, setIsNavVisible] = useState(true);
 
     const navContainerRef = useRef(null);
+    {/*What it does: References the navbar container div
+    Role:
+
+    Target for GSAP animations
+    CSS class manipulation (adding/removing floating-nav)
+    Why it's there: Need direct DOM access for:
+
+    classList.add/remove("floating-nav")
+    GSAP's gsap.to(navContainerRef.current, {...}) */
+    }
     const audioElementRef = useRef(null);
+    //     What it does: References the <audio> HTML element
+    // Role: Control audio playback programmatically
+    // Why it's there: Need to call .play() and .pause() methods
+    // Used in:
+    // javascriptif (IsAudioPlaying) {
+    //     audioElementRef.current.play()
+    // } else {
+    //     audioElementRef.current.pause()
+    // }
 
 
-    const {y:currentScrollY}=useWindowScroll();
+    const { y: currentScrollY } = useWindowScroll();
 
-    useEffect(()=>{
-        if(currentScrollY===0)
-        {
+    //extracting the cuureent scroll uysing react use library
+    //obejct returns with x and y properties 
+    //detsructuring it and extracting the values of y and renaming it to current scroll y
+    //everytime when user scrolls the value changes
+
+    // SCROLL DIRECTION LOGIC
+    useEffect(() => {
+        if (currentScrollY === 0) {
             //if the user scroll is nothing then
+            //when user is at the top and havent scrolled yet
             setIsNavVisible(true);
             navContainerRef.current.classList.remove("floating-nav")
         }
-        else if(currentScrollY>lastScrollY)
-        {
+        else if (currentScrollY > lastScrollY) {
+
+            //when user scrolls down cz the currscrioll is higher than the last
+            //hide navbar
             setIsNavVisible(false);
+            //add the class to navbar
             navContainerRef.current.classList.add("floating-nav")
         }
-        else if(currentScrollY<lastScrollY)
-        {
+        else if (currentScrollY < lastScrollY) {
+
+            //now when user scrolls up
             setIsNavVisible(true);
             navContainerRef.current.classList.add("floating-nav")
-            
+
         }
 
         setLastScrollY(currentScrollY)
-    },[currentScrollY,lastScrollY])
+        //also updating the current scroll so that it stores the curr position for
+        //next scroll
+    }, 
+    //dependencies - means runs whenever the scroll position changes 
+    //detects the direction and update the navbar state
+    [currentScrollY, lastScrollY])
 
-    useEffect(()=>{
-        gsap.to(navContainerRef.current,{
-            y:isNavVisible?0:-100,
-            opacity:isNavVisible?1:0,
-            duration:0.2,
+
+    //THE GSAP ANI 
+    useEffect(() => {
+        //properties
+        gsap.to(navContainerRef.current, {
+            //normal y-0 y:-100 moves upto 100 px 
+            //role-slideAnimation
+            //why-100 navbar moves above the viewport
+            y: isNavVisible ? 0 : -100,
+            //opacity fade effect dalta h
+            opacity: isNavVisible ? 1 : 0,
+            //animation completes in 0.2 secoinds
+            duration: 0.2,
         })
-    },[isNavVisible])
+    }, 
+    
+    //dependencies : runs whenever the isnavVisible changes
+    [isNavVisible])   
 
 
-    function toggleAudioIndicator()
-    {
+    function toggleAudioIndicator() {
         //basically reverse ther state that whether the audio is playing or not
-        SetIsAudioPlaying((audio)=>!audio)
-        setIsIndicatorActive((active)=>!active)
+        SetIsAudioPlaying((audio) => !audio)
+        setIsIndicatorActive((active) => !active)
     }
 
-    useEffect(()=>{
-        if(IsAudioPlaying)
-        {
+    useEffect(() => {
+        if (IsAudioPlaying) {
             audioElementRef.current.play()
         }
-        else
-        {
+        else {
             audioElementRef.current.pause()
         }
-    },[IsAudioPlaying])
+    }, 
+    
+    //dependencies basically runs when audio state changes
+    [IsAudioPlaying])
     return (
         <div ref={navContainerRef} className='fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6'>
             <header className='absolute top-0.5 w-full -translate-y-0.5'>
@@ -104,8 +149,8 @@ const Navbar = () => {
                             <audio ref={audioElementRef} src='/audio/loop.mp3' className='hidden' loop />
                             {[1, 2, 3, 4].map((bar) => {
                                 return (
-                                    <div key={bar} className={`indicator-line ${isIndicatorActive?"active":""} `}
-                                        style={{animationDelay:`${bar*0.1}s`}}
+                                    <div key={bar} className={`indicator-line ${isIndicatorActive ? "active" : ""} `}
+                                        style={{ animationDelay: `${bar * 0.1}s` }}
                                     />
                                 )
                             })}
