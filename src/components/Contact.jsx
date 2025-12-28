@@ -1,7 +1,11 @@
 import React from 'react'
 import Button from './Button';
 import ImageClipBox from './ImageClip';
+import { useGSAP } from '@gsap/react';
 const Contact = () => {
+
+
+
     return (
         <section id="contact" className="my-20 w-screen px-10">
             {/*yeh dive hume provide krrta h padding basically */}
